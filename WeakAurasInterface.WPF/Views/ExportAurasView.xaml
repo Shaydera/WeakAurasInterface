@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="WeakAurasInterface.WPF.Views.ExportAurasView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:WeakAurasInterface.Core.ViewModels;assembly=WeakAurasInterface.Core"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             d:DataContext="{d:DesignInstance viewModels:ExportAurasViewModel}"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="650">
+    <Grid Margin="4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label Grid.Column="1" HorizontalAlignment="Center" Margin="5" FontSize="18" Content="Export" />
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TreeView x:Name="LoadedDisplaysTree" Grid.Column="0" Width="250" Height="250" Margin="5,20,5,5"
+                      BorderThickness="1" BorderBrush="DarkGray"
+                      ItemsSource="{Binding Path=LoadedDisplays}"
+                      VirtualizingStackPanel.IsVirtualizing="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
+                        <Label FontSize="11" MaxWidth="200" Content="{Binding Path=Id}" />
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                <Button Margin="0,5,0,0" Command="{Binding Path=AddToSelectionCommand}"
+                        CommandParameter="{Binding ElementName=LoadedDisplaysTree, Path=SelectedItem }">
+                    <iconPacks:PackIconMaterial Kind="{x:Static iconPacks:PackIconMaterialKind.ChevronRight}" />
+                </Button>
+                <Button Margin="0,5,0,10" Command="{Binding Path=RemoveFromSelectionCommand}"
+                        CommandParameter="{Binding SelectedItem, ElementName=SelectedDisplaysTree}">
+                    <iconPacks:PackIconMaterial Kind="{x:Static iconPacks:PackIconMaterialKind.ChevronLeft}" />
+                </Button>
+                <Button Margin="0,10,0,5" Command="{Binding Path=SelectAllDisplaysCommand}">
+                    <iconPacks:PackIconMaterial Kind="{x:Static iconPacks:PackIconMaterialKind.PageLast}" />
+                </Button>
+                <Button Margin="0,0,0,5" Command="{Binding Path=ClearSelectionCommand}">
+                    <iconPacks:PackIconMaterial Kind="{x:Static iconPacks:PackIconMaterialKind.Close}" />
+                </Button>
+            </StackPanel>
+            <TreeView x:Name="SelectedDisplaysTree" Grid.Column="2" Width="250" Height="250" Margin="5,20,5,5"
+                      BorderThickness="1" BorderBrush="DarkGray"
+                      ItemsSource="{Binding Path=SelectedDisplays}"
+                      VirtualizingStackPanel.IsVirtualizing="True"
+                      VirtualizingStackPanel.VirtualizationMode="Recycling">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate>
+                        <Label FontSize="11" MaxWidth="200" Content="{Binding Path=Id}" />
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </Grid>
+        <Button Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,5,0"
+                Command="{Binding Path=ExportSelectedDisplaysCommand}">
+            <iconPacks:PackIconMaterial Kind="{x:Static iconPacks:PackIconMaterialKind.ContentSave}" />
+        </Button>
+        <Button Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0"
+                Command="{Binding Path=ReloadCommand}">
+            <iconPacks:PackIconMaterial Kind="{x:Static iconPacks:PackIconMaterialKind.Reload}" />
+        </Button>
+    </Grid>
+</UserControl>
