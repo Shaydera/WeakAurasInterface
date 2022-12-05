@@ -9,6 +9,8 @@ public abstract class FileServiceBase : IFileService
 {
     public abstract string BrowseDirectory(string initialDirectory);
 
+    public abstract void OpenDirectory(string directory);
+
     public async Task<bool> CreateFileWithContentAsync(string fileName, string fileContent)
     {
         await File.WriteAllTextAsync(fileName, fileContent);
@@ -22,5 +24,9 @@ public abstract class FileServiceBase : IFileService
         return string.Join("_", fileName.Split(invalidChars, StringSplitOptions.RemoveEmptyEntries)).TrimEnd('.');
     }
 
-    public abstract void OpenDirectory(string directory);
+    public string BuildFilename(string directory, string filename, string extension)
+    {
+        extension = extension.Trim('.');
+        return Path.Combine(directory, $"{SanitizeFilename(filename)}.{extension}");
+    }
 }

@@ -8,18 +8,17 @@ namespace WeakAurasInterface.Tests.Services;
 [TestFixture]
 public class WeakAurasLuaServiceTest
 {
-    private WeakAurasLuaService _luaService;
-    private ISettingsService _settingsService;
-
     [SetUp]
     public async Task SetUp()
     {
-        _settingsService = await XmlSettingsService.BuildSettingsServiceAsync();
-        _settingsService.Settings.WarcraftDirectory = ".\\FolderTestEnvironment";
-        _settingsService.Settings.GameVersion = GameVersion.Retail;
-        _settingsService.Settings.AccountName = "TestAccount#1";
-        _luaService = new WeakAurasLuaService(_settingsService);
+        ISettingsService settingsService = await XmlSettingsService.BuildSettingsServiceAsync();
+        settingsService.Settings.WarcraftDirectory = ".\\FolderTestEnvironment";
+        settingsService.Settings.GameVersion = GameVersion.Retail;
+        settingsService.Settings.AccountName = "TestAccount#1";
+        _luaService = new WeakAurasLuaService(settingsService);
     }
+
+    private WeakAurasLuaService _luaService = null!;
 
     [Test]
     public async Task GetAurasAsync()

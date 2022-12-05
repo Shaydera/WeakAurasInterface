@@ -7,14 +7,6 @@ namespace WeakAurasInterface.Tests.Services;
 [TestFixture]
 public class SettingsServiceTest
 {
-    private const string TestFolder = ".\\FolderTestEnvironment";
-    private const GameVersion TestVersion = GameVersion.Retail;
-    private const string TestAccount = "TestAccount#1";
-    private const string FullSavePath =
-        @".\FolderTestEnvironment\_retail_\WTF\Account\TestAccount#1\SavedVariables\WeakAuras.lua";
-
-    private ISettingsService _settingsService = null!;
-
     [SetUp]
     public async Task SetUp()
     {
@@ -25,6 +17,15 @@ public class SettingsServiceTest
         _settingsService.Settings.GameVersion = TestVersion;
         _settingsService.Settings.AccountName = TestAccount;
     }
+
+    private const string TestFolder = ".\\FolderTestEnvironment";
+    private const GameVersion TestVersion = GameVersion.Retail;
+    private const string TestAccount = "TestAccount#1";
+
+    private const string FullSavePath =
+        @".\FolderTestEnvironment\_retail_\WTF\Account\TestAccount#1\SavedVariables\WeakAuras.lua";
+
+    private ISettingsService _settingsService = null!;
 
     [Test]
     public void IsValid()

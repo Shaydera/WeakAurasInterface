@@ -23,11 +23,12 @@ public sealed class ExportAurasViewModel : WorkspaceViewModel
     private ObservableCollection<WeakAuraDisplay> _loadedDisplays = new(Enumerable.Empty<WeakAuraDisplay>());
     private ObservableCollection<WeakAuraDisplay> _selectedDisplays = new(Enumerable.Empty<WeakAuraDisplay>());
 
-    public ExportAurasViewModel(string displayName) : base(displayName)
+    public ExportAurasViewModel(string displayName, IFileService? fileService = null,
+        ISettingsService? settingsService = null, IWeakAurasService? weakAurasService = null) : base(displayName)
     {
-        _fileService = Ioc.Default.GetRequiredService<IFileService>();
-        _settingsService = Ioc.Default.GetRequiredService<ISettingsService>();
-        _weakAurasService = Ioc.Default.GetRequiredService<IWeakAurasService>();
+        _fileService = fileService ?? Ioc.Default.GetRequiredService<IFileService>();
+        _settingsService = settingsService ?? Ioc.Default.GetRequiredService<ISettingsService>();
+        _weakAurasService = weakAurasService ?? Ioc.Default.GetRequiredService<IWeakAurasService>();
         ReloadCommand = new AsyncRelayCommand(OnReloadAsync);
         ExportSelectedDisplaysCommand = new AsyncRelayCommand(ExportSelectedDisplays);
         AddToSelectionCommand = new RelayCommand<WeakAuraDisplay>(AddDisplayToSelection);
@@ -127,9 +128,8 @@ public sealed class ExportAurasViewModel : WorkspaceViewModel
         var taskBag = new ConcurrentBag<Task>();
         foreach (KeyValuePair<string, string> pair in exportDict)
         {
-            string fileName = _fileService.SanitizeFilename(pair.Key);
-            var fullFilename = $"{exportDir}\\{fileName}.txt";
-            taskBag.Add(_fileService.CreateFileWithContentAsync(fullFilename, pair.Value));
+            string fileName = _fileService.BuildFilename(exportDir, pair.Key, "txt");
+            taskBag.Add(_fileService.CreateFileWithContentAsync(fileName, pair.Value));
         }
 
         await Task.WhenAll(taskBag);

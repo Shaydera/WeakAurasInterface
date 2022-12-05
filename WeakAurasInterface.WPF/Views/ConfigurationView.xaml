@@ -24,7 +24,8 @@
         <Label Grid.Column="1" HorizontalAlignment="Center" FontSize="18" Content="Options" />
         <DockPanel Grid.Column="1" Grid.Row="1" Margin="0,10">
             <Label Content="World of Warcraft Root Directory" HorizontalAlignment="Left" DockPanel.Dock="Top" />
-            <Button DockPanel.Dock="Right" Width="30" Margin="2,0,0,0" Command="{Binding BrowseWarcraftDirectoryCommand}">
+            <Button DockPanel.Dock="Right" Width="30" Margin="2,0,0,0"
+                    Command="{Binding BrowseWarcraftDirectoryCommand}">
                 <iconPacks:PackIconMaterial Kind="{x:Static iconPacks:PackIconMaterialKind.FolderSettings}" />
             </Button>
             <TextBox

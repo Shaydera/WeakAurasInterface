@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using NLua;
 using WeakAurasInterface.Core.Lua;
 using WeakAurasInterface.Core.Models;
@@ -13,7 +14,7 @@ namespace WeakAurasInterface.Core.Services;
 
 /// <summary>
 ///     Lua based implementation of IWeakAurasService
-///     TODO: Serialize WeakAuras.lua (Save File) and fill WeakAurasSaved Table from C# 
+///     TODO: Serialize WeakAuras.lua (Save File) and fill WeakAurasSaved Table from C#
 ///     TODO: so we do not need to execute an untrusted lua file.
 ///     TODO: Alternatively sandbox the Lua Environment.
 /// </summary>
@@ -21,9 +22,9 @@ public class WeakAurasLuaService : IWeakAurasService
 {
     private readonly ISettingsService _settingsService;
 
-    public WeakAurasLuaService(ISettingsService settingsService)
+    public WeakAurasLuaService(ISettingsService? settingsService = null)
     {
-        _settingsService = settingsService;
+        _settingsService = settingsService ?? Ioc.Default.GetRequiredService<ISettingsService>();
     }
 
     public async Task<IEnumerable<WeakAuraDisplay>> GetAurasAsync(bool rootNodesOnly = false)
@@ -54,7 +55,8 @@ public class WeakAurasLuaService : IWeakAurasService
         }
     }
 
-    public async Task<IReadOnlyDictionary<string, string>> ExportDisplaysAsStringAsync(IEnumerable<WeakAuraDisplay> displays)
+    public async Task<IReadOnlyDictionary<string, string>> ExportDisplaysAsStringAsync(
+        IEnumerable<WeakAuraDisplay> displays)
     {
         if (!_settingsService.IsValid())
             return new Dictionary<string, string>();

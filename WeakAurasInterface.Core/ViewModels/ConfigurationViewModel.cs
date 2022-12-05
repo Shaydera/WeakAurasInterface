@@ -14,18 +14,19 @@ namespace WeakAurasInterface.Core.ViewModels;
 /// </summary>
 public sealed class ConfigurationViewModel : WorkspaceViewModel
 {
-    private readonly ISettingsService _settingsService;
     private readonly IFileService _fileService;
+    private readonly ISettingsService _settingsService;
 
     private bool _inputEnabled = true;
 
 
     private string _lastError = string.Empty;
 
-    public ConfigurationViewModel(string displayName) : base(displayName)
+    public ConfigurationViewModel(string displayName, IFileService? fileService = null,
+        ISettingsService? settingsService = null) : base(displayName)
     {
-        _settingsService = Ioc.Default.GetRequiredService<ISettingsService>();
-        _fileService = Ioc.Default.GetRequiredService<IFileService>();
+        _settingsService = settingsService ?? Ioc.Default.GetRequiredService<ISettingsService>();
+        _fileService = fileService ?? Ioc.Default.GetRequiredService<IFileService>();
         SaveCommand = new AsyncRelayCommand(SaveConfiguration);
         BrowseWarcraftDirectoryCommand = new RelayCommand(BrowseWarcraftDirectory);
     }

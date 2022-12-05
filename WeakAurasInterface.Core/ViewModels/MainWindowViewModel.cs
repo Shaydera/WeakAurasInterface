@@ -18,9 +18,9 @@ public sealed class MainWindowViewModel : WorkspaceViewModel
 {
     private readonly ISettingsService _settingsService;
 
-    public MainWindowViewModel(string displayName) : base(displayName)
+    public MainWindowViewModel(string displayName, ISettingsService? settingsService = null) : base(displayName)
     {
-        _settingsService = Ioc.Default.GetRequiredService<ISettingsService>();
+        _settingsService = settingsService ?? Ioc.Default.GetRequiredService<ISettingsService>();
         Workspaces = new ObservableCollection<WorkspaceViewModel>();
         Workspaces.CollectionChanged += OnWorkspacesChanged;
         CollectionViewSource.GetDefaultView(Workspaces).CurrentChanged += CurrentWorkspaceChanged;

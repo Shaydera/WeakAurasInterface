@@ -14,4 +14,6 @@ public interface IFileService
     public string SanitizeFilename(string fileName);
 
     public void OpenDirectory(string directory);
+
+    public string BuildFilename(string directory, string filename, string extension);
 }

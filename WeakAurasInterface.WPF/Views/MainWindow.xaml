@@ -30,7 +30,8 @@
             <Menu KeyboardNavigation.TabNavigation="Cycle" IsMainMenu="True">
                 <MenuItem Header="_File">
                     <Separator />
-                    <MenuItem Header="E_xit" IsEnabled="{Binding Path=CloseCommand}"  Command="{Binding Path=CloseCommand}"
+                    <MenuItem Header="E_xit" IsEnabled="{Binding Path=CloseCommand}"
+                              Command="{Binding Path=CloseCommand}"
                               DataContext="{Binding Path=CurrentWorkspace}" />
                 </MenuItem>
                 <MenuItem Header="_Tools">
