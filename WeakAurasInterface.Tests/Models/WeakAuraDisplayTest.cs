@@ -58,5 +58,9 @@ public class WeakAuraDisplayTest
         Assert.That(rootTwo.Children, Has.Count.EqualTo(1));
         Assert.That(rootTwo.Children, Contains.Item(branchOne));
         Assert.That(branchOne.Children, Contains.Item(subBranchOne));
+
+        rootOne.AppendChild(branchOne);
+        Assert.That(rootTwo.Children, Has.No.Member(branchOne));
+        Assert.That(rootOne.Children, Contains.Item(branchOne));
     }
 }

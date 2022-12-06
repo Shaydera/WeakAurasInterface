@@ -52,6 +52,7 @@ public class WeakAuraDisplay
     {
         if (_children != null && _children.Contains(child))
             return false;
+        child._parent?.RemoveChild(child);
         _children ??= new List<WeakAuraDisplay>();
         _children.Add(child);
         child._parent = this;
