@@ -31,6 +31,6 @@ public class BatchServiceTests
         (bool isSuccess, int exportCount) = await _batchService.StartBatchExportAsync(ExportDir);
         Assert.That(isSuccess, Is.True);
         Assert.That(exportCount, Is.GreaterThan(0));
-        Assert.That(Directory.GetFiles(ExportDir).Length, Is.EqualTo(exportCount));
+        Assert.That(Directory.GetFiles(ExportDir,string.Empty, SearchOption.AllDirectories).Length, Is.EqualTo(exportCount));
     }
 }
